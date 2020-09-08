@@ -1,6 +1,9 @@
 #!bin/python
 
 def get_data():
+    """Load data from the web API
+    todo: fix date range 
+          """
     import pandas_datareader as pdr
     import pandas_datareader.data as web
     import matplotlib.pyplot as plt
@@ -17,7 +20,7 @@ def get_data():
     6: 'iex',   # requires API key
     }
     
-    start = '2012-01-01'
+    start = '1999-01-01'
     end = None
 
     data = web.DataReader(symbol,provider[0],start,end) 
@@ -25,4 +28,7 @@ def get_data():
     rub = web.DataReader('RUB=X',provider[0],start,end) 
     oil.to_csv('oil.csv')
     rub.to_csv('rub.csv')
+ 
+# Procedure for transforming daily to monthly
+# Feature extraction ideas: Indicator from normalized world index values. provider[4]
 
