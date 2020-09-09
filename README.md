@@ -2,17 +2,16 @@
 1.
 ## eqty 
 ### v0.1 Data 
- ty: load and process dependent variable  
- tx: load and save independent variables  
- wb: module for tx, merge?  
-TODO:
-* ty: data cleaning
-* main: statistical data analysis, visualisations 
-Variables:?? econ_w + econ_ru + season/month
-#### v0.2 Model
-* Regression task
+~wb?  
+vis procedures: in respective modules?
+TODO:    
+procedure to normalize tx    
+reshape ty, adjust for $  
 
-Variables:?? econ_w + econ_ru + season/month
+#### v0.2 Model
+* Regression task  
+
+#### v0.3 Predictive performance
 
 ## sna
 #### v0.1: graph generation from vk data.
