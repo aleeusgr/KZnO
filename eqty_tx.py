@@ -5,7 +5,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import datetime as dt
 
-symbol = "CL=F"
 provider = {
 0:'yahoo',  # symbols: MSFT
 1:'quandl', #has specific symbol format. symbols:??? 
@@ -16,24 +15,26 @@ provider = {
 6: 'iex',   # requires API key
 }
 
-start = '1998-01-01'
-end = None
-
-#data = web.DataReader(symbol,provider[0],start,end) 
 def fetch():
-    oil = web.DataReader('CL=F',provider[0],start,end) 
-    rub = web.DataReader('RUB=X',provider[0],start,end) 
-    oil.to_csv('oil.csv')
-    rub.to_csv('rub.csv')
+    start = '1998-01-01'
+    end = None
+    web_data = {
+    'oil' : web.DataReader('CL=F',provider[0],start,end) ,
+    'rub' : web.DataReader('RUB=X',provider[0],start,end) 
+    }
+    dataM={}
+    for i in web_data.keys():
+        dataM[i] = web_data[i].resample('1M').mean()
+        dataM[i].to_csv('{}.csv'.format(i))
+
 #fetch()
 
-oil = pd.read_csv('oil.csv')
-rub = pd.read_csv('rub.csv')
 
-df = rub
-df.set_index('Date', inplace=True)
-df.index = pd.to_datetime(df.index)
-df.resample('1M').mean()
+data = {
+'oil' : pd.read_csv('oil.csv'),
+'rub' : pd.read_csv('rub.csv')
+}
 
+#
 # Feature extraction ideas: Indicator from normalized world index values. provider[4]
 
