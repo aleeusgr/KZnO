@@ -1,9 +1,9 @@
 #!/bin/python
 
-def load_y(src='prft',visualise=False):
+def load_y(src='prft',visualise=False,verb=False):
     '''Load pvt data
     do: 
-    returns: train_y, np.array(23,12)'''
+    returns: dataY, np.array(23,12)'''
     import pandas as pd
     from pathlib import PosixPath
     import datetime as dt
@@ -22,20 +22,9 @@ def load_y(src='prft',visualise=False):
     'vol' : df.iloc[50:96:2,:].copy().reset_index(drop=True),
     'prft': df.iloc[ 2:47:2,:].copy().reset_index(drop=True)
     }
-    def do_visualise(df):
-
-        import numpy as np
-        import matplotlib.pyplot as plt
-        import calendar
-        plot = df.iloc[0:,1:].to_numpy()
-        plot = plot.astype(float)
-        plt.figure(figsize=(20,10))
-        plt.yticks(np.arange(12),labels = [calendar.month_abbr[i] for i in range(1,13)])
-        plt.xticks(np.arange(23),list(range(1998,2021)))
-        plt.imshow(plot.T)
-        plt.show()
     
-
+    if verb:
+        print(data[src])
     if visualise:
         do_visualise(data[src])
 
@@ -43,3 +32,18 @@ def load_y(src='prft',visualise=False):
     df = data[src]
     return df.iloc[:,1:].to_numpy().reshape((23,12)).astype(float)
      
+def do_visualise(plot):
+    '''DO:
+    reshape data to fit Nx12 box
+    auto labels
+    '''
+    import numpy as np
+    import matplotlib.pyplot as plt
+    import calendar
+    #plot = df.iloc[0:,1:].to_numpy()
+    #plot = plot.astype(float)
+    plt.figure(figsize=(20,10))
+    plt.yticks(np.arange(12),labels = [calendar.month_abbr[i] for i in range(1,13)])
+    plt.xticks(np.arange(23),list(range(1998,2021)))
+    plt.imshow(plot.T)
+    plt.show()

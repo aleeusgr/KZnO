@@ -2,13 +2,10 @@
 
 ## eqty 
 ### v0.1 Data 
-
-TODO:    
-procedure to normalize tx    
-reshape ty, adjust for $  
-
 #### v0.2 Model
 * Regression task  
+* Do the pipeline
+* Play with train_x
 
 #### v0.3 Predictive performance
 
