@@ -1,4 +1,7 @@
 #!/bin/python
+# function to import train_y; input: file, private.
+# DO: custom output for vol, prft, both
+# returns: train_y,np.array()
 
 import pandas as pd
 from pathlib import PosixPath
@@ -15,8 +18,8 @@ df = pd.read_excel(PATH,sheet_name='данные',
 df.columns = (range(13))
 
 
-volume = df.iloc[50:96:2,:].copy().reset_index(drop=True)
-profit = df.iloc[ 2:47:2,:].copy().reset_index(drop=True)
+vol = df.iloc[50:96:2,:].copy().reset_index(drop=True)
+prfit = df.iloc[ 2:47:2,:].copy().reset_index(drop=True)
 
 def visualise(df):
     plot = df.iloc[0:,1:].to_numpy()
@@ -32,6 +35,6 @@ def visualise(df):
     plt.show()
 
 # transform into dataframe, parse dates
-df = volume
-data = df.iloc[:,1:].to_numpy().reshape(276).astype(float)
+df = vol
+train_y = df.iloc[:,1:].to_numpy().reshape(276).astype(float)
  

@@ -1,4 +1,9 @@
 #!bin/python
+# function  to obtain train_x
+# 
+# DO:
+# option to choose WEB or local
+# outputs: train_x, np.array 
 
 import pandas_datareader.data as web
 import pandas as pd
@@ -15,7 +20,8 @@ provider = {
 6: 'iex',   # requires API key
 }
 
-def fetch():
+def fetch(resample='1M'):
+    """TEST : """
     start = '1998-01-01'
     end = None
     web_data = {
@@ -24,7 +30,7 @@ def fetch():
     }
     dataM={}
     for i in web_data.keys():
-        dataM[i] = web_data[i].resample('1M').mean()
+        dataM[i] = web_data[i].resample(resample).mean()
         dataM[i].to_csv('{}.csv'.format(i))
 
 #fetch()
@@ -38,3 +44,4 @@ data = {
 #
 # Feature extraction ideas: Indicator from normalized world index values. provider[4]
 
+train_x = data['rub'].iloc[1:,1:].to_numpy()
