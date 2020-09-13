@@ -1,21 +1,20 @@
 #!bin/python
 
 # new functionality:
-# train_x, train_y function calls
-# watch modules in python!!!
+
 import matplotlib.pyplot as plt
 import datetime as dt
 import pandas as pd
+import tx,ty
 
-def show_train_x_graphs():
+try:
+    dataX = tx.load_local()
+except:
+    tx.fetch()
+    dataX = tx.load_local()
 
-    oil = pd.read_csv('oil.csv')
-    rub = pd.read_csv('rub.csv')
+dataY = ty.load_y() # np.array(23,12), Jan1998 : ??2020
 
-    plt.figure(figsize=(10,5))
-    plt.plot(oil['Close'],label='Crude Oil')
-    plt.plot(rub['Close'],label='USD/RUB')
-    plt.legend()
-    plt.show()
-
-#print(search)
+# dataX['rub']: convet to (Y,M) np.array
+# dataY - convert to $, visualise 
+# 

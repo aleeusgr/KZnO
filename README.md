@@ -1,9 +1,8 @@
 # KZnO
-1.
+
 ## eqty 
 ### v0.1 Data 
-~wb?  
-vis procedures: in respective modules?
+
 TODO:    
 procedure to normalize tx    
 reshape ty, adjust for $  
@@ -16,8 +15,9 @@ reshape ty, adjust for $
 ## sna
 #### v0.1: graph generation from vk data.
 social network from a list of groups:
-* get people, 
-* find common friends, 
-* build network, 
-* visualise graph.
+* start from group ID (list of IDs)
+* get people   
+* find common friends  
+* build network   
+* visualise graph  
 

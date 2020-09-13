@@ -3,7 +3,7 @@
 def load_y(src='prft',visualise=False):
     '''Load pvt data
     do: 
-    returns: train_y, np.array'''
+    returns: train_y, np.array(23,12)'''
     import pandas as pd
     from pathlib import PosixPath
     import datetime as dt
@@ -22,7 +22,7 @@ def load_y(src='prft',visualise=False):
     'vol' : df.iloc[50:96:2,:].copy().reset_index(drop=True),
     'prft': df.iloc[ 2:47:2,:].copy().reset_index(drop=True)
     }
-    def visualise(df):
+    def do_visualise(df):
 
         import numpy as np
         import matplotlib.pyplot as plt
@@ -34,11 +34,12 @@ def load_y(src='prft',visualise=False):
         plt.xticks(np.arange(23),list(range(1998,2021)))
         plt.imshow(plot.T)
         plt.show()
+    
 
     if visualise:
-        visualise(data[src])
+        do_visualise(data[src])
 
     # transform into dataframe, parse dates
     df = data[src]
-    return df.iloc[:,1:].to_numpy().reshape(276).astype(float)
+    return df.iloc[:,1:].to_numpy().reshape((23,12)).astype(float)
      

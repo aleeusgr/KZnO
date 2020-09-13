@@ -3,12 +3,16 @@
 def fetch(resample='1M'):
     '''Get data from web
      DO:
+     try different sources
      parameters 
 
      resamples, saves to disk'''
 
     import pandas_datareader.data as web
     import datetime as dt
+    import world_bank_data as wb
+
+    #wb.get_topics()
 
     provider = {
     0:'yahoo',  # symbols: MSFT
@@ -43,5 +47,17 @@ def load_local():
     #
     # Feature extraction ideas: Indicator from normalized world index values. provider[4]
 
-    return data['rub'].iloc[1:,1:].to_numpy()
+    return data
+    #return data['rub'].iloc[1:,1:].to_numpy()
+
+def show_train_x_graphs():
+
+    oil = pd.read_csv('oil.csv')
+    rub = pd.read_csv('rub.csv')
+
+    plt.figure(figsize=(10,5))
+    plt.plot(oil['Close'],label='Crude Oil')
+    plt.plot(rub['Close'],label='USD/RUB')
+    plt.legend()
+    plt.show()
 
