@@ -6,9 +6,10 @@ import networkx as nx
 import matplotlib.pyplot as plt
 
 def auth():
-    
+    with open('cred') as f:
+       cred = f.read().split() 
     import vk_api
-    vk_session = vk_api.VkApi('+79202720942')
+    vk_session = vk_api.VkApi(cred[0])
     vk_session.auth(token_only=True)
     return vk_session.get_api()
 
