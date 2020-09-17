@@ -14,10 +14,6 @@ def auth():
     return vk_session.get_api()
 
 
-#friends_verbose = vk.users.get(user_ids = friend_ids['items']) # get user info from ids
-#users_by_group = vk.groups.getMembers(group_id='zarya71') # get users of a group
-#my_groups = vk.groups.get()['items']
-
 def save(dataset,outputFile = 'test.data'):
    
     import pickle 
@@ -30,15 +26,30 @@ def load(inputFile = 'test.data'):
     fd = open(inputFile, 'rb')
     return pickle.load(fd)
 
-def scrape_group_names():
-    '''Returns (group_id,'GroupName')'''
+def my_Groups(vk):
+    '''vk: returned by auth()
+        returns (group_id,'GroupName')'''
     my_groups=[]
     for group_id in vk.groups.get()['items']:
         my_groups.append((group_id, vk.groups.getById(group_ids=group_id)[0]['name']))
     return my_groups
     
+def get_users(vk):
+    '''vk: returned by auth()
+        id_list: produced '''
+    import pandas as pd
+    my_groups = vk.groups.get()['items']
+    relevant = pd.DataFrame(my_groups).loc[[0,1,2,6,11,13,18,19,20,22,23]]
+    id_list= relevant.iloc[:,0].to_list()
+    users={}
+    for i in id_list:
+        try:
+            users[i] = vk.groups.getMembers(group_id=i)['items']
+        except:
+            users[i] = i
+    return users
 def scrape_users_in_my_groups(my_groups):
-    '''returns {group_id:(groups users)}'''
+    '''deprecated'''
     people_in_groups = {}
     for group_id in my_groups:
         #group = vk.groups.getById(group_ids=group_id)[0]['name']
@@ -58,3 +69,7 @@ def scrape_users_in_my_groups(my_groups):
 #    return vk.groups.get(user_id=user_id) 
 #    #return  vk.friends.get(user_id = user_id)
 #    vk.friends.get() #ids of active user friends
+#    my_group_ids = vk.groups.get()['items']
+#friends_verbose = vk.users.get(user_ids = friend_ids['items']) # get user info from ids
+#users_by_group = vk.groups.getMembers(group_id='zarya71') # get users of a group
+
