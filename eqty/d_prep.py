@@ -3,8 +3,6 @@ def main(show=False):
 
     # new functionality:
     # TODO: 
-    # clean: functions in modules, only experimental functionality in main.
-    # import sklearn, remember regression methods. SGD, Boost, Ensemble?? 
 
     import matplotlib.pyplot as plt
     import datetime as dt
@@ -22,7 +20,7 @@ def main(show=False):
     dataY = ty.load_y() # np.array(23,12), Jan1998 : Dec2020
 
     # pre-processing. 
-    train_x = dataX['rub'].iloc[1:,1:]['Close'].to_numpy()[:-1] # check if the dates are right
+    train_x = dataX['rub.csv'].iloc[1:,1:]['Close'].to_numpy()[:-1] # check if the dates are right
     train_x = np.nan_to_num(train_x, nan=27) 
     train_y = dataY.reshape(-1)[12*(2004-1998):-4] # Jan'04: Aug'20 
     adjst_usd = np.multiply(train_y,1/train_x)

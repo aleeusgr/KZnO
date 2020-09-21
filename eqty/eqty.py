@@ -8,4 +8,4 @@
 import d_prep as d
 
 
-tr_x,tr_y,ts_x,ts_y = d.main()
+tr_x,tr_y,ts_x,ts_y = d.main(show=True)

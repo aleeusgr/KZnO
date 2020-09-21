@@ -26,29 +26,30 @@ def fetch(resample='1M'):
 
     start = '1998-01-01'
     end = None
+    # set datasources here: 
     web_data = {
     'oil' : web.DataReader('CL=F',provider[0],start,end) ,
     'rub' : web.DataReader('RUB=X',provider[0],start,end) 
     }
-    dataM={}
+    dataM={} # rename? resampled, monthly
     for i in web_data.keys():
         dataM[i] = web_data[i].resample(resample).mean()
         dataM[i].to_csv('{}.csv'.format(i))
 
 def load_local():
     '''Load local data
-    DO:auto read all csv in the folder?'''
+    DO:'''
     import pandas as pd
-    data = {
-    'oil' : pd.read_csv('oil.csv'),
-    'rub' : pd.read_csv('rub.csv')
-    }
-    
-    #
-    # Feature extraction ideas: Indicator from normalized world index values. provider[4]
+    from os import listdir,getcwd
+    from os.path import isfile, join
+    mypath = getcwd()
+    onlyfiles = [f for f in listdir(mypath) if isfile(join(mypath, f))]
+    data = {}
+    for f in onlyfiles:
+        if '.csv' in f:
+            data[f] =  pd.read_csv(f)
 
     return data
-    #return data['rub'].iloc[1:,1:].to_numpy()
 
 def show_train_x_graphs():
 
