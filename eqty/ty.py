@@ -33,10 +33,8 @@ def load_y(src='prft',visualise=False,verb=False):
     return df.iloc[:,1:].to_numpy().reshape((23,12)).astype(float)
      
 def do_visualise(plot):
-    '''DO:
-    reshape data to fit Nx12 box
-    auto labels
-    '''
+    '''deprecated'''
+    
     import numpy as np
     import matplotlib.pyplot as plt
     import calendar

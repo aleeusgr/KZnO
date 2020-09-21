@@ -6,6 +6,9 @@ import networkx as nx
 import matplotlib.pyplot as plt
 
 def auth():
+    '''
+    get cred by "echo '<login> <pass>' >> cred
+    '''
     with open('cred') as f:
        cred = f.read().split() 
     import vk_api
@@ -15,7 +18,6 @@ def auth():
 
 
 def save(dataset,outputFile = 'test.data'):
-   
     import pickle 
     fw = open(outputFile, 'wb')
     pickle.dump(dataset, fw)
@@ -36,7 +38,8 @@ def my_Groups(vk):
     
 def get_users(vk):
     '''vk: returned by auth()
-        id_list: produced '''
+        returns {<group_id>:[groups_users]}
+        '''
     import pandas as pd
     my_groups = vk.groups.get()['items']
     relevant = pd.DataFrame(my_groups).loc[[0,1,2,6,11,13,18,19,20,22,23]]
@@ -46,7 +49,8 @@ def get_users(vk):
         try:
             users[i] = vk.groups.getMembers(group_id=i)['items']
         except:
-            users[i] = i
+            pass
+            #users[i] = i
     return users
 def scrape_users_in_my_groups(my_groups):
     '''deprecated'''
