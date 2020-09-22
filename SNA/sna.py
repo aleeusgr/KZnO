@@ -25,7 +25,10 @@ import pandas as pd
 data = v.load()
 
 G = nx.from_dict_of_lists(data)
+# add_node_attributes, 
+df =pd.Series( nx.degree_histogram(G))
+Gs1 = nx.subgraph(G,data[list(data.keys())[0]]) 
 #G = nx.Graph()
 #print(G.nodes)
-#nx.draw(G)
-#plt.show()
+nx.draw(Gs1) # implement: change node/edge drawing parameters: size, style, transparency
+plt.show()
