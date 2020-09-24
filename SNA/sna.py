@@ -4,14 +4,14 @@
 # graph visualisation: TACTICOOL-related groups, their users, bipartite graph. 
 # Do small ideas, play around, combine.
 # Try: show only groups, but size is proportional to a metric. Going deeper - research several metrics.
-# 
+# function to draw graph by steps? 
+# What information can I get from these data?
 # * node coding: size, color.
 # Data extraction ideas:
 * identify social network cluster: BDB
 
 '''
 import os
-import vk_api
 import networkx as nx
 import matplotlib.pyplot as plt
 import vk as v
@@ -23,12 +23,31 @@ import pandas as pd
 #v.save(members)
 
 data = v.load()
-
 G = nx.from_dict_of_lists(data)
+
 # add_node_attributes, 
-df =pd.Series( nx.degree_histogram(G))
-Gs1 = nx.subgraph(G,data[list(data.keys())[0]]) 
-#G = nx.Graph()
-#print(G.nodes)
-nx.draw(Gs1) # implement: change node/edge drawing parameters: size, style, transparency
-plt.show()
+degree_cent = nx.degree_centrality(G)# what are other types and whats the diffrence? degree/total_n_nodes??
+nx.set_node_attributes(G,degree_cent,'degree_centrality')
+
+# Pandas Dataframe 
+df = pd.Series(degree_cent,index=G.nodes) #Check if index connects with data. 
+
+# OUTPUT:
+#for i in G.nodes():
+#    print(G.nodes[i]['degree_centrality'])
+
+from networkx.algorithms import bipartite
+
+bipartite.basic.degrees(G,list(data.keys()))
+groups, users = bipartite.sets(G)
+
+def draw_parts(G):
+    '''slow'''
+    layout = nx.spring_layout(G)
+    for s,n in zip(('green','red'),reversed(bipartite.sets(G))): 
+        Gs1 = nx.subgraph(G,n) # separate a subgraph:
+        nx.draw_networkx_nodes(Gs1,layout,node_color=s)
+    plt.show()
+
+#draw_parts(G)
+
