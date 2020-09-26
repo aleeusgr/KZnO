@@ -24,19 +24,31 @@ def fetch(resample='1M'):
     6: 'iex',   # requires API key
     }
 
-    start = '1998-01-01'
-    end = None
-    # set datasources here: 
-    web_data = {
-    'oil' : web.DataReader('CL=F',provider[0],start,end) ,
-    'rub' : web.DataReader('RUB=X',provider[0],start,end) 
+    # write procedure to fetch train and test separetly
+    start = '1998-01-01' # train_y starts here 
+    end_train = '2004-08-30' 
+    print('UNTESTED: load tickers from a dictionary')
+    #TEST:
+    n_prov = 0
+    symbols = {
+    'yahoo' : (('oil','CL=F'),('rub','RUB=X'))
     }
+    web_data = {}
+    for name,ticker in symbols[provider[n_prov]]:
+        web_data[name] = web.DataReader(ticker,provider[n_prov],start,end_train) 
+        web_data[name+'_test'] = web.DataReader(ticker,provider[n_prov],end_train) 
+    #TESTED:
+    web_data = {
+    'oil' : web.DataReader('CL=F',provider[0],start,end_train) ,
+    'rub' : web.DataReader('RUB=X',provider[0],start,end_train) 
+    }
+    # test, must work with new func
     dataM={} # rename? resampled, monthly
     for i in web_data.keys():
         dataM[i] = web_data[i].resample(resample).mean()
         dataM[i].to_csv('{}.csv'.format(i))
 
-def load_local():
+def load_local_x():
     '''Load local data
     DO:'''
     import pandas as pd
@@ -52,7 +64,7 @@ def load_local():
     return data
 
 def show_train_x_graphs():
-
+    '''deprecated?'''
     oil = pd.read_csv('oil.csv')
     rub = pd.read_csv('rub.csv')
 

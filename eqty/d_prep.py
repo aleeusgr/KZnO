@@ -1,5 +1,9 @@
 #!bin/python
-def main(show=False):
+def main(show=0):
+    '''show=number of colorscheme;
+
+
+    return (train_x,train_y,test_x,test_y)'''
 
     # new functionality:
     # TODO: 
@@ -12,19 +16,26 @@ def main(show=False):
 
     # get data
     try:
-        dataX = tx.load_local()
+        dataX = tx.load_local_x()
     except:
         tx.fetch()
-        dataX = tx.load_local()
+        dataX = tx.load_local_x()
 
     dataY = ty.load_y() # np.array(23,12), Jan1998 : Dec2020
 
-    # pre-processing. 
+    # write a procedure to automate pre-processing. 
+    #
+    # find shortest dataset, identify its start date? , cut all train_x and train_y from the back. 
+    for idx,dset in dataX.items():
+        print(dset.loc[:,'Date'].min())
+    
+    #TESTED:
     train_x = dataX['rub.csv'].iloc[1:,1:]['Close'].to_numpy()[:-1] # check if the dates are right
-    train_x = np.nan_to_num(train_x, nan=27) 
+    train_x = np.nan_to_num(train_x, nan=27)# procedure to impute missing data!!! 
     train_y = dataY.reshape(-1)[12*(2004-1998):-4] # Jan'04: Aug'20 
+
     adjst_usd = np.multiply(train_y,1/train_x)
-    if show:
+    if show!=0:
 
         def fit_grid(plot):
             ''' input: here must come a np.array, 
@@ -57,7 +68,9 @@ def main(show=False):
             plt.show()
             
 
-        wrap(25)
+        wrap(show)
 
     test_x,test_y = None, None
     return (train_x,train_y,test_x,test_y)
+
+main()
