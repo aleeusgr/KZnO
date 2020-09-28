@@ -11,7 +11,7 @@ def main(show=0):
     import matplotlib.pyplot as plt
     import datetime as dt
     import pandas as pd
-    import tx,ty,plt_heatmap as hmap
+    import tx,ty,plt_heatmap as hmap#rename plt_heatmap -> vis
     import numpy as np
 
     # get data
@@ -23,13 +23,7 @@ def main(show=0):
 
     dataY = ty.load_y() # np.array(23,12), Jan1998 : Dec2020
 
-    # write a procedure to automate pre-processing. 
-    #
-    # find shortest dataset, identify its start date? , cut all train_x and train_y from the back. 
-    for idx,dset in dataX.items():
-        print(dset.loc[:,'Date'].min())
-    
-    #TESTED:
+    #TESTED: with old data
     train_x = dataX['rub.csv'].iloc[1:,1:]['Close'].to_numpy()[:-1] # check if the dates are right
     train_x = np.nan_to_num(train_x, nan=27)# procedure to impute missing data!!! 
     train_y = dataY.reshape(-1)[12*(2004-1998):-4] # Jan'04: Aug'20 
@@ -73,4 +67,4 @@ def main(show=0):
     test_x,test_y = None, None
     return (train_x,train_y,test_x,test_y)
 
-main()
+_ = main()

@@ -24,25 +24,26 @@ def fetch(resample='1M'):
     6: 'iex',   # requires API key
     }
 
-    # write procedure to fetch train and test separetly
-    start = '1998-01-01' # train_y starts here 
-    end_train = '2004-08-30' 
-    print('UNTESTED: load tickers from a dictionary')
-    #TEST:
     n_prov = 0
     symbols = {
     'yahoo' : (('oil','CL=F'),('rub','RUB=X'))
     }
     web_data = {}
+    start = '1998-01-01' # train_y starts here 
+    end_train = '2020-08-30' 
     for name,ticker in symbols[provider[n_prov]]:
-        web_data[name] = web.DataReader(ticker,provider[n_prov],start,end_train) 
-        web_data[name+'_test'] = web.DataReader(ticker,provider[n_prov],end_train) 
+        web_data[name] = web.DataReader(ticker,provider[n_prov],start=start) 
+        web_data[name].fillna(method='bfill',inplace=True)
+        # add fetching test_X?
+
+    sortest_dataset_date = '2004-08-30' 
+
     #TESTED:
-    web_data = {
-    'oil' : web.DataReader('CL=F',provider[0],start,end_train) ,
-    'rub' : web.DataReader('RUB=X',provider[0],start,end_train) 
-    }
-    # test, must work with new func
+    #web_data = {
+    #'oil' : web.DataReader('CL=F',provider[0],start,end_train) ,
+    #'rub' : web.DataReader('RUB=X',provider[0],start,end_train) 
+    #}
+    ## test, must work with new func
     dataM={} # rename? resampled, monthly
     for i in web_data.keys():
         dataM[i] = web_data[i].resample(resample).mean()

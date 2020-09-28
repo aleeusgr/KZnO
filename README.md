@@ -2,9 +2,14 @@
 
 ## eqty 
 ### v0.1 Data 
-#### v0.2 Model
+X must be a normalized dataset. In tx set accordingly: 
+* full range of data is loaded, shortest dataset ID'd and all are resampled and saved in a single pd.DataFrame()
+* dprep will fetch\read. Rewrite ty cutting procedure to take first and last date from dataX as cut points for dataY
+* Visualisation function will get broken. Fix, move to the separate module. Desired functionality: take a pd.Series or np.array as input, fit it to 12byN plot and visualise. 
+### v0.2 Model
 * Regression task  
-* Do the pipeline
+* try TFCoder functionality?
+* GridCV??
 * Play with train_x
 
 #### v0.3 Predictive performance
@@ -12,14 +17,13 @@
 ## sna
 #### v0.1: graph generation from vk data.
 MEM: 
-cred= echo 'name pass' >> cred
+SNA$ echo 'name pass' >> cred
 
 vk.py: rename 	
 #### v0.2: 
 ideas on graph vis:
-* pagerank?
-* color coding: group/user; centrality?, pagerank?, 
-* size: centrality??
+* color coding: group/user; how to use cmaps?
+* size: centrality, degree, whatever. 
 
 What information from the graph I can use?
 Task: from the sample obtain key figures:
