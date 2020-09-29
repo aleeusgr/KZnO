@@ -5,7 +5,7 @@
 # clean: functions in modules, only experimental functionality in main.
 # import sklearn, remember regression methods. SGD, Boost, Ensemble?? 
 
-import d_prep as d
+import dprep as d
 
 
-tr_x,tr_y,ts_x,ts_y = d.main(show=18)
+#tr_x,tr_y,ts_x,ts_y = d.main(show=18)

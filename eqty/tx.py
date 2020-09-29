@@ -1,6 +1,6 @@
 #!bin/python
 
-def fetch(resample='1M'):
+def fetch(save = False, dset_name = 'dataset.csv'):
     '''Get data from web
      DO:
      try different sources
@@ -34,24 +34,41 @@ def fetch(resample='1M'):
     for name,ticker in symbols[provider[n_prov]]:
         web_data[name] = web.DataReader(ticker,provider[n_prov],start=start) 
         web_data[name].fillna(method='bfill',inplace=True)
-        # add fetching test_X?
+        web_data[name] = web_data[name].loc[:,'Close'].resample('1M').mean()
+    
+    import pandas as pd
+    dset = pd.DataFrame.from_dict(web_data)
+    lengths = dset.count(0)
+    dset_cut = dset.iloc[lengths.max()-lengths.min():].copy()
+    if save:
+        dset_cut.to_csv('{}'.format(dset_name))
+    return dset_cut
 
-    sortest_dataset_date = '2004-08-30' 
+def loadX(save_locally = False, dset_name = 'dataset.csv'):
+    import pandas as pd
+    try:
+        dataX = pd.read_csv(dset_name)
+        #dataX = load_local_x()
+    except:
+        print('local files not found, fetching..')
+        dataX = fetch(save_locally, dset_name = 'dataset.csv')
+    return dataX
 
-    #TESTED:
-    #web_data = {
-    #'oil' : web.DataReader('CL=F',provider[0],start,end_train) ,
-    #'rub' : web.DataReader('RUB=X',provider[0],start,end_train) 
-    #}
-    ## test, must work with new func
-    dataM={} # rename? resampled, monthly
-    for i in web_data.keys():
-        dataM[i] = web_data[i].resample(resample).mean()
-        dataM[i].to_csv('{}.csv'.format(i))
+#
+#DEPRECATED
+
+#    sortest_dataset_date = '2004-08-30' 
+#
+#    dataM={} # rename? resampled, monthly
+#    for i in web_data.keys():
+#        dataM[i] = web_data[i].resample(resample).mean()
+#       
+
 
 def load_local_x():
     '''Load local data
-    DO:'''
+    DO: returns: pd.Dataframe?
+    returns: {filename: pd.Dataframe'''
     import pandas as pd
     from os import listdir,getcwd
     from os.path import isfile, join
@@ -63,7 +80,6 @@ def load_local_x():
             data[f] =  pd.read_csv(f)
 
     return data
-
 def show_train_x_graphs():
     '''deprecated?'''
     oil = pd.read_csv('oil.csv')

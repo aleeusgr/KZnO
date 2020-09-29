@@ -1,6 +1,6 @@
 #!/bin/python
 
-def load_y(src='prft',verb=False):
+def loadY(src='prft',verb=False):
     '''Load private history data data
     do: 
     returns: dataY, np.array(23,12)'''
