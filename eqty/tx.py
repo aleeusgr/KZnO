@@ -33,8 +33,8 @@ def fetch(save = False, dset_name = 'dataset.csv'):
     end_train = '2020-08-30' 
     for name,ticker in symbols[provider[n_prov]]:
         web_data[name] = web.DataReader(ticker,provider[n_prov],start=start) 
-        web_data[name].fillna(method='bfill',inplace=True)
         web_data[name] = web_data[name].loc[:,'Close'].resample('1M').mean()
+        web_data[name].fillna(method='bfill',inplace=True)
     
     import pandas as pd
     dset = pd.DataFrame.from_dict(web_data)

@@ -41,7 +41,16 @@ from networkx.algorithms import bipartite
 bipartite.basic.degrees(G,list(data.keys()))
 groups, users = bipartite.sets(G)
 
-def draw_parts(G):
+def draw_subgraph(G,sub):
+    layout = nx.circular_layout(G)
+    #layout = nx.spring_layout(G)
+    G = nx.subgraph(G,sub) # separate a subgraph:
+    for n in G:
+        nx.draw_networkx_nodes(n,layout)
+    plt.show()
+
+draw_subgraph(G,list(users)[:10])
+def draw_AB(G):
     '''slow'''
     layout = nx.spring_layout(G)
     for s,n in zip(('green','red'),reversed(bipartite.sets(G))): 
