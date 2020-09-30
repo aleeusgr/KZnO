@@ -16,6 +16,7 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import vk as v
 import pandas as pd
+from networkx.algorithms import bipartite
 
 #vk = v.auth() #authentificate and get and instance of vk_api 
 #groups = v.my_Groups(vk)
@@ -27,18 +28,20 @@ G = nx.from_dict_of_lists(data)
 
 # add_node_attributes, 
 degree_cent = nx.degree_centrality(G)# what are other types and whats the diffrence? degree/total_n_nodes??
-nx.set_node_attributes(G,degree_cent,'degree_centrality')
+degrees = bipartite.basic.degrees(G,G.nodes)
+attrib = degree_cent
+att_name = 'degree_centr'
+nx.set_node_attributes(G,attrib,att_name)
+
+def node_by_number(n):
+    node = list(G.nodes)[n]
+    print(G.nodes[node][att_name])
 
 # Pandas Dataframe 
-df = pd.Series(degree_cent,index=G.nodes) #Check if index connects with data. 
+#df = pd.Series(attrib,index=G.nodes) #Check if index connects with data. 
 
-# OUTPUT:
-#for i in G.nodes():
-#    print(G.nodes[i]['degree_centrality'])
 
-from networkx.algorithms import bipartite
 
-bipartite.basic.degrees(G,list(data.keys()))
 groups, users = bipartite.sets(G)
 
 def draw_subgraph(G,sub):
@@ -49,7 +52,7 @@ def draw_subgraph(G,sub):
         nx.draw_networkx_nodes(n,layout)
     plt.show()
 
-draw_subgraph(G,list(users)[:10])
+#draw_subgraph(G,list(users)[:10])
 def draw_AB(G):
     '''slow'''
     layout = nx.spring_layout(G)
