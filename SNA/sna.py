@@ -1,6 +1,5 @@
 #!/bin/python
 '''
-# TODO:
 # graph visualisation: TACTICOOL-related groups, their users, bipartite graph. 
 # Do small ideas, play around, combine.
 # Try: show only groups, but size is proportional to a metric. Going deeper - research several metrics.
@@ -18,6 +17,7 @@ import vk as v
 import pandas as pd
 from networkx.algorithms import bipartite
 
+#SAVE DATA LOCALLY:
 #vk = v.auth() #authentificate and get and instance of vk_api 
 #groups = v.my_Groups(vk)
 #members = v.get_users(vk)
@@ -25,26 +25,37 @@ from networkx.algorithms import bipartite
 
 data = v.load()
 G = nx.from_dict_of_lists(data)
-
-# add_node_attributes, 
+# nx FUNCTIONS:
 degree_cent = nx.degree_centrality(G)# what are other types and whats the diffrence? degree/total_n_nodes??
 degrees = bipartite.basic.degrees(G,G.nodes)
 attrib = degree_cent
 att_name = 'degree_centr'
 nx.set_node_attributes(G,attrib,att_name)
 
+groups, users = bipartite.sets(G)
+layout = nx.circular_layout(G)
+# TODO
+# df: [node][degree] : statistical analysis. what percent of users in 2,3 etc groups? usr_edges_MAX?
+# ID user clusters: select node N, if it is distance 1 from groups A and B
+# repeat for each pair of groups.G
+for node in G.nodes:
+    d = degrees[1][node]
+    if d > 2:
+        print(node,d )
+g = nx.subgraph(G,node)
+
 def node_by_number(n):
     node = list(G.nodes)[n]
     print(G.nodes[node][att_name])
+    print(degrees[0][node])
 
-# Pandas Dataframe 
-#df = pd.Series(attrib,index=G.nodes) #Check if index connects with data. 
+node_by_number(10)
 
-
-
-groups, users = bipartite.sets(G)
-
-def draw_subgraph(G,sub):
+#CLASS FOR DRAWING??
+def selective_drawing(G,sub):
+    '''
+    broken
+    '''
     layout = nx.circular_layout(G)
     #layout = nx.spring_layout(G)
     G = nx.subgraph(G,sub) # separate a subgraph:
