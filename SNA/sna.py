@@ -8,6 +8,7 @@
 # * node coding: size, color.
 # Data extraction ideas:
 * identify social network cluster: BDB
+Cluster ID = graph partitioning, modules: partition-networx, python-louvain
 
 '''
 import os
@@ -38,18 +39,30 @@ layout = nx.circular_layout(G)
 # df: [node][degree] : statistical analysis. what percent of users in 2,3 etc groups? usr_edges_MAX?
 # ID user clusters: select node N, if it is distance 1 from groups A and B
 # repeat for each pair of groups.G
-for node in G.nodes:
-    d = degrees[1][node]
-    if d > 2:
-        print(node,d )
-g = nx.subgraph(G,node)
+# generate pairs of grous: code in ffox;
+# distance between nodes: 
+
+ranked = {}
+for l in range(9):
+    rk = ()
+    for usr in users:
+        if degrees[1][usr]==l:
+            rk += (usr,)
+    ranked[l] = rk
+
+print(ranked[3])
+
+def by_degree(G,dM):
+    for node in G.nodes:
+        d = degrees[1][node]
+        if d == dM:
+            print(node,d )
 
 def node_by_number(n):
     node = list(G.nodes)[n]
     print(G.nodes[node][att_name])
     print(degrees[0][node])
 
-node_by_number(10)
 
 #CLASS FOR DRAWING??
 def selective_drawing(G,sub):
