@@ -31,8 +31,12 @@ train_y = dataY.reshape(-1)[-1+12*(init_date.year-1998)+init_date.month:-4] # FI
 
 df = dataX.iloc[:-1,:].copy()
 df['Y'] = train_y.tolist()
+df['Y$'] = df['Y'] / df['rub']
+#im = plt.matshow(df.corr(),interpolation='none', vmin=0, vmax=1, aspect='equal')
 
-im = plt.matshow(df.corr(),interpolation='none', vmin=0, vmax=1, aspect='equal')
 
-plt.show()
-
+import itertools
+l = list(itertools.combinations(df.drop('Date',axis=1).columns, 2))
+for i in l:
+    df.plot(x=i[0],y=i[1],kind='scatter',c=df.index)
+    plt.show()
