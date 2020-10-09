@@ -36,7 +36,7 @@ def my_Groups(vk):
         my_groups.append((group_id, vk.groups.getById(group_ids=group_id)[0]['name']))
     return my_groups
     
-def get_users(vk):
+def get_group_members(vk):
     '''vk: returned by auth()
         returns {<group_id>:[groups_users]}
         '''
@@ -52,28 +52,13 @@ def get_users(vk):
             pass
             #users[i] = i
     return users
-def scrape_users_in_my_groups(my_groups):
-    '''deprecated'''
-    people_in_groups = {}
-    for group_id in my_groups:
-        #group = vk.groups.getById(group_ids=group_id)[0]['name']
-        try:
-            people_in_groups[group_id] = vk.groups.getMembers(group_id=group_id)
-        except:
-            people_in_groups[group_id] = 'error'
-    return people_in_groups
 
-#def group_tested_methods(name = my_groups[0]):
-#    vk.groups.getById(group_ids=name) #gets group info
-#    return vk.groups.getMembers(group_id=name)
-#
-#def user_tested_methods(names = ('kanaby')): # renam
-#    user = vk.users.get(user_ids = names)
-#    user_id = user[0]['id']
-#    return vk.groups.get(user_id=user_id) 
-#    #return  vk.friends.get(user_id = user_id)
-#    vk.friends.get() #ids of active user friends
-#    my_group_ids = vk.groups.get()['items']
-#friends_verbose = vk.users.get(user_ids = friend_ids['items']) # get user info from ids
-#users_by_group = vk.groups.getMembers(group_id='zarya71') # get users of a group
-
+def load_dataset(save_locally = True):
+    try:
+        data = load()
+    except:
+        vk = v.auth() #authentificate and get and instance of vk_api 
+        data = v.get_users(vk)
+        if save_locally:
+            v.save(data)
+    return data
