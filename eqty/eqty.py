@@ -18,3 +18,6 @@ num_pipeline = Pipeline([
     ])
 
 scaled = num_pipeline.fit_transform(tr_x)
+
+# model selection
+

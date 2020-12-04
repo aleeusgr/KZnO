@@ -20,16 +20,30 @@ def check_date(weekdays):
         print(today)
         return False
 
+def write_log():
+    with open('log.txt','r+') as f:
+       import datetime
+       f.write(str(datetime.date.today()))
+
+def check_log():
+    with open('log.txt') as f:
+        for line in f:
+            pass
+        last = line
+    import datetime
+    if datetime.datetime.strptime(last, '%Y-%m-%d').date()==datetime.date.today():
+        return False
+    else:
+        return True
 
 weekdays = [1,3]
-if check_date(weekdays):
+if check_date(weekdays) and check_log():
     v = vk.auth()
     pic = choose_pic(newpath)
     result = vk.post_pic(v,pic)
-    print(pic)
+    print(result)
+    write_log()
     shutil.move('./{}/{}'.format(newpath,pic),'./{}/{}'.format(oldpath,pic))
     
-    
 
-
-
+check_log()

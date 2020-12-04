@@ -24,9 +24,9 @@ vk.py: rename (to what?)
 ideas on graph vis:
 * color coding: group/user; how to use cmaps?
 * size: centrality, degree, whatever. 
+#### v.0.3: 
+rework the interface to use user-user connections, find potential influencer people.
 
-What information from the graph I can use?
-Task: from the sample obtain key figures:
-* node centrality.
-* number of steps for signal to reach all nodes.
-* graph partitioning 
+## tacticool
+a simple bot to steal images from pinterest and post to vk
+#### v0.1 

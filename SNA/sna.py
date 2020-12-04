@@ -1,4 +1,14 @@
 #!/bin/python
+'''
+Ok, I got users sorted by number of groups.
+assume target audience of the groups is the same? Should I implement user statistics by group?
+
+FInd method for distance calculation: closer users are easier attracted? 
+remove self: which parts of the graph will stay connected?
+assign color to degree_centrality?
+
+
+'''
 import os
 import networkx as nx
 import matplotlib.pyplot as plt
@@ -17,13 +27,19 @@ groups, users = bipartite.sets(G)
  
 def draw_by_degree(G):
     '''Super slow
-    DO: make colors representative
+    DO: colors? 
+    move to util
      
     returns None'''
-    pos = nx.spring_layout(G, iterations=20)
+    # How to exclude nodes with degree=1 from computation?
+    pos = nx.spring_layout(G, iterations=40) # iterations ~ complexity. 
+    #pos = nx.circular_layout(G)
     ubd = util.users_by_degree(G)
     for rank in ubd: 
         #G1 = nx.subgraph(G,ubd[rank])
-        #nx.draw_networkx_nodes(G,pos,ubd[rank], rank*75,node_color=range(len(ubd[rank])),cmap='seismic')
-        nx.draw_networkx_nodes(G,pos,ubd[rank], node_color=rank,cmap='seismic')
+        size = 10 + 10*rank*(rank-1)
+        nx.draw_networkx_nodes(G,pos,ubd[rank], size)#,node_color=range(len(ubd[rank])),cmap='seismic')
+        #nx.draw_networkx_nodes(G,pos,ubd[rank], node_color=rank,cmap='seismic')
     plt.show()
+
+draw_by_degree(G)
